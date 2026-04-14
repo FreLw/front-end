@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JavaScript 最小入门 / JS Minimal Guide</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600&family=JetBrains+Mono:wght@400;600&family=DM+Sans:wght@300;400;500&display=swap');
+
+  :root {
+    --bg: #0f0f11;
+    --surface: #17171a;
+    --surface2: #1e1e22;
+    --border: #2a2a30;
+    --accent: #e8c547;
+    --accent2: #5b8dd9;
+    --accent3: #7ec99a;
+    --text: #e8e6e0;
+    --text-muted: #888880;
+    --tag-bg: #2a2a30;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', 'Noto Serif SC', sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+    padding: 2rem 1rem 4rem;
+  }
+
+  .container {
+    max-width: 780px;
+    margin: 0 auto;
+  }
+
+  header {
+    padding: 3rem 0 2.5rem;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 2.5rem;
+  }
+
+  .eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-family: 'JetBrains Mono', monospace;
+    margin-bottom: 0.75rem;
+  }
+
+  h1 {
+    font-size: 2rem;
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--text);
+    margin-bottom: 0.5rem;
+  }
+
+  .subtitle {
+    color: var(--text-muted);
+    font-size: 14px;
+  }
+
+  .section {
+    margin-bottom: 3rem;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.6rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .section-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.05em;
+  }
+
+  h2 {
+    font-size: 1.05rem;
+    font-weight: 500;
+    color: var(--text);
+  }
+
+  .en-label {
+    font-size: 12px;
+    color: var(--text-muted);
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  .concept {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 1rem;
+  }
+
+  .concept-header {
+    padding: 0.85rem 1.1rem;
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface2);
+  }
+
+  .concept-title-zh {
+    font-weight: 500;
+    font-size: 14px;
+    color: var(--text);
+  }
+
+  .concept-title-en {
+    font-size: 12px;
+    color: var(--text-muted);
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .concept-body {
+    padding: 1rem 1.1rem;
+  }
+
+  .desc {
+    font-size: 13.5px;
+    color: var(--text-muted);
+    margin-bottom: 0.85rem;
+    line-height: 1.65;
+  }
+
+  .desc strong {
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  pre {
+    background: #0a0a0c;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1rem 1.1rem;
+    overflow-x: auto;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    line-height: 1.7;
+  }
+
+  .kw { color: #c792ea; }
+  .str { color: #c3e88d; }
+  .num { color: #f78c6c; }
+  .fn { color: #82aaff; }
+  .cm { color: #546e7a; font-style: italic; }
+  .arr { color: var(--accent); }
+  .prop { color: #89ddff; }
+  .bool { color: #ff5874; }
+
+  .tip {
+    background: rgba(232, 197, 71, 0.07);
+    border-left: 2px solid var(--accent);
+    border-radius: 0 6px 6px 0;
+    padding: 0.65rem 1rem;
+    margin-top: 0.85rem;
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+
+  .tip strong {
+    color: var(--accent);
+  }
+
+  .tip-blue {
+    background: rgba(91, 141, 217, 0.07);
+    border-left: 2px solid var(--accent2);
+  }
+
+  .tip-blue strong {
+    color: var(--accent2);
+  }
+
+  .tag {
+    display: inline-block;
+    background: var(--tag-bg);
+    color: var(--text-muted);
+    font-size: 11px;
+    font-family: 'JetBrains Mono', monospace;
+    padding: 2px 7px;
+    border-radius: 3px;
+    margin-right: 4px;
+  }
+
+  .tag.must {
+    background: rgba(232, 197, 71, 0.1);
+    color: var(--accent);
+  }
+
+  .summary-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    margin-top: 1rem;
+  }
+
+  .summary-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0.85rem 1rem;
+  }
+
+  .summary-item .label {
+    font-size: 11px;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--accent3);
+    margin-bottom: 0.3rem;
+    letter-spacing: 0.05em;
+  }
+
+  .summary-item .value {
+    font-size: 13px;
+    color: var(--text);
+  }
+
+  footer {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+    font-size: 12px;
+    color: var(--text-muted);
+    text-align: center;
+  }
+
+  @media (max-width: 500px) {
+    .summary-grid { grid-template-columns: 1fr; }
+    h1 { font-size: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <div class="eyebrow">JavaScript 最小知识体系 · Minimal Starter</div>
+  <h1>从零到能用<br><span style="color:var(--text-muted);font-size:1.2rem">Zero to Functional</span></h1>
+  <p class="subtitle">掌握这 6 个核心，剩下的用到再查 · Master these 6 things, look up the rest as needed</p>
+</header>
+
+<!-- SECTION 1 -->
+<div class="section">
+  <div class="section-header">
+    <span class="section-num">01</span>
+    <h2>变量与基本类型 <span class="en-label">Variables & Types</span></h2>
+  </div>
+
+  <div class="concept">
+    <div class="concept-header">
+      <span class="concept-title-zh">声明变量</span>
+      <span class="concept-title-en">Declaring Variables</span>
+      <span class="tag must">必须</span>
+    </div>
+    <div class="concept-body">
+      <p class="desc">用 <strong>const</strong> 声明不会变的值，用 <strong>let</strong> 声明会变的值。<br>
+      <strong>不要用 var</strong>，那是老写法，会带来奇怪的 bug。</p>
+      <pre><span class="cm">// const = 不会再重新赋值的量</span>
+<span class="kw">const</span> name <span class="arr">=</span> <span class="str">"Freya"</span>
+<span class="kw">const</span> age <span class="arr">=</span> <span class="num">22</span>
+<span class="kw">const</span> isStudent <span class="arr">=</span> <span class="bool">true</span>
+
+<span class="cm">// let = 之后会改变的量</span>
+<span class="kw">let</span> score <span class="arr">=</span> <span class="num">0</span>
+score <span class="arr">=</span> <span class="num">10</span>  <span class="cm">// 可以重新赋值</span>
+
+<span class="cm">// 常见类型 / Common types</span>
+<span class="kw">const</span> text <span class="arr">=</span> <span class="str">"字符串 string"</span>
+<span class="kw">const</span> num <span class="arr">=</span> <span class="num">42</span>           <span class="cm">// 数字 number</span>
+<span class="kw">const</span> flag <span class="arr">=</span> <span class="bool">false</span>       <span class="cm">// 布尔 boolean</span>
+<span class="kw">const</span> nothing <span class="arr">=</span> <span class="bool">null</span>    <span class="cm">// 空值 null</span></pre>
+      <div class="tip"><strong>记住：</strong> 默认用 const，只有当你知道这个值之后会变，才换成 let。</div>
+    </div>
+  </div>
+
+  <div class="concept">
+    <div class="concept-header">
+      <span class="concept-title-zh">数组与对象</span>
+      <span class="concept-title-en">Arrays & Objects</span>
+      <span class="tag must">必须</span>
+    </div>
+    <div class="concept-body">
+      <p class="desc"><strong>数组</strong>是有序列表，<strong>对象</strong>是键值对集合。这两个是 JS 里最常用的数据结构。</p>
+      <pre><span class="cm">// 数组 Array — 有序列表</span>
+<span class="kw">const</span> fruits <span class="arr">=</span> [<span class="str">"苹果"</span>, <span class="str">"香蕉"</span>, <span class="str">"芒果"</span>]
+fruits[<span class="num">0</span>]        <span class="cm">// → "苹果"（从0开始）</span>
+fruits.<span class="prop">length</span>    <span class="cm">// → 3</span>
+
+<span class="cm">// 对象 Object — 键值对</span>
+<span class="kw">const</span> user <span class="arr">=</span> {
+  <span class="prop">name</span>: <span class="str">"Freya"</span>,
+  <span class="prop">age</span>: <span class="num">22</span>,
+  <span class="prop">isStudent</span>: <span class="bool">true</span>
+}
+
+user.<span class="prop">name</span>      <span class="cm">// → "Freya"</span>
+user[<span class="str">"age"</span>]    <span class="cm">// → 22（两种取值方式都可以）</span></pre>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 2 -->
+<div class="section">
+  <div class="section-header">
+    <span class="section-num">02</span>
+    <h2>函数 <span class="en-label">Functions</span></h2>
+  </div>
+
+  <div class="concept">
+    <div class="concept-header">
+      <span class="concept-title-zh">箭头函数</span>
+      <span class="concept-title-en">Arrow Functions</span>
+      <span class="tag must">必须</span>
+    </div>
+    <div class="concept-body">
+      <p class="desc">现代 JS 最常用的函数写法。你在 React 代码里到处都会看到它。</p>
+      <pre><span class="cm">// 传统写法（了解即可）</span>
+<span class="kw">function</span> <span class="fn">greet</span>(name) {
+  <span class="kw">return</span> <span class="str">`你好, </span><span class="arr">${name}</span><span class="str">!`</span>
+}
+
+<span class="cm">// 箭头函数写法（常用）</span>
+<span class="kw">const</span> <span class="fn">greet</span> <span class="arr">=</span> (name) <span class="arr">=&gt;</span> {
+  <span class="kw">return</span> <span class="str">`你好, </span><span class="arr">${name}</span><span class="str">!`</span>
+}
+
+<span class="cm">// 单行可以省略 return 和花括号</span>
+<span class="kw">const</span> <span class="fn">double</span> <span class="arr">=</span> (n) <span class="arr">=&gt;</span> n <span class="arr">*</span> <span class="num">2</span>
+
+<span class="fn">greet</span>(<span class="str">"Freya"</span>)  <span class="cm">// → "你好, Freya!"</span>
+<span class="fn">double</span>(<span class="num">5</span>)       <span class="cm">// → 10</span></pre>
+      <div class="tip"><strong>模板字符串：</strong> 用反引号 <code>`</code> 包裹，<code>${变量}</code> 直接插入变量，比字符串拼接好用很多。</div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 3 -->
+<div class="section">
+  <div class="section-header">
+    <span class="section-num">03</span>
+    <h2>数组操作 <span class="en-label">Array Methods</span></h2>
+  </div>
+
+  <div class="concept">
+    <div class="concept-header">
+      <span class="concept-title-zh">三个最常用的数组方法</span>
+      <span class="concept-title-en">map / filter / forEach</span>
+      <span class="tag must">必须</span>
+    </div>
+    <div class="concept-body">
+      <p class="desc">这三个方法在 React 渲染列表时几乎每天都用。</p>
+      <pre><span class="kw">const</span> nums <span class="arr">=</span> [<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>, <span class="num">5</span>]
+
+<span class="cm">// map — 对每个元素做变换，返回新数组</span>
+<span class="cm">// "把每个数乘以2"</span>
+<span class="kw">const</span> doubled <span class="arr">=</span> nums.<span class="fn">map</span>(n <span class="arr">=&gt;</span> n <span class="arr">*</span> <span class="num">2</span>)
+<span class="cm">// → [2, 4, 6, 8, 10]</span>
+
+<span class="cm">// filter — 过滤出符合条件的元素</span>
+<span class="cm">// "只要偶数"</span>
+<span class="kw">const</span> evens <span class="arr">=</span> nums.<span class="fn">filter</span>(n <span class="arr">=&gt;</span> n <span class="arr">%</span> <span class="num">2</span> <span class="arr">===</span> <span class="num">0</span>)
+<span class="cm">// → [2, 4]</span>
+
+<span class="cm">// forEach — 遍历每个元素，不返回新数组</span>
+nums.<span class="fn">forEach</span>(n <span class="arr">=&gt;</span> console.<span class="fn">log</span>(n))
+<span class="cm">// 依次打印 1 2 3 4 5</span>
+
+<span class="cm">// 实际场景：React 渲染列表</span>
+<span class="kw">const</span> users <span class="arr">=</span> [{ <span class="prop">name</span>: <span class="str">"Freya"</span> }, { <span class="prop">name</span>: <span class="str">"Alex"</span> }]
+users.<span class="fn">map</span>(user <span class="arr">=&gt;</span> <span class="str">`&lt;li&gt;</span><span class="arr">${user.name}</span><span class="str">&lt;/li&gt;`</span>)</pre>
+      <div class="tip"><strong>记忆口诀：</strong> map 变形，filter 筛选，forEach 遍历。</div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 4 -->
+<div class="section">
+  <div class="section-header">
+    <span class="section-num">04</span>
+    <h2>解构赋值 <span class="en-label">Destructuring</span></h2>
+  </div>
+
+  <div class="concept">
+    <div class="concept-header">
+      <span class="concept-title-zh">从对象/数组中快速取值</span>
+      <span class="concept-title-en">Extract values quickly</span>
+      <span class="tag must">必须</span>
+    </div>
+    <div class="concept-body">
+      <p class="desc">现代 JS 和 React 代码里到处都是这个写法，看懂它很重要。</p>
+      <pre><span class="cm">// 对象解构</span>
+<span class="kw">const</span> user <span class="arr">=</span> { <span class="prop">name</span>: <span class="str">"Freya"</span>, <span class="prop">age</span>: <span class="num">22</span>, <span class="prop">city</span>: <span class="str">"Melbourne"</span> }
+
+<span class="cm">// 老写法</span>
+<span class="kw">const</span> name <span class="arr">=</span> user.<span class="prop">name</span>
+<span class="kw">const</span> age <span class="arr">=</span> user.<span class="prop">age</span>
+
+<span class="cm">// 解构写法（更简洁）</span>
+<span class="kw">const</span> { name, age } <span class="arr">=</span> user
+<span class="cm">// name → "Freya", age → 22</span>
+
+<span class="cm">// 数组解构</span>
+<span class="kw">const</span> colors <span class="arr">=</span> [<span class="str">"red"</span>, <span class="str">"green"</span>, <span class="str">"blue"</span>]
+<span class="kw">const</span> [first, second] <span class="arr">=</span> colors
+<span class="cm">// first → "red", second → "green"</span>
+
+<span class="cm">// React useState 就是这个原理！</span>
+<span class="kw">const</span> [count, setCount] <span class="arr">=</span> <span class="fn">useState</span>(<span class="num">0</span>)</pre>
+      <div class="tip tip-blue"><strong>原来如此：</strong> 你在 CampusQuest 里写的 <code>useState</code> 就是数组解构！现在看懂了吧。</div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 5 -->
+<div class="section">
+  <div class="section-header">
+    <span class="section-num">05</span>
+    <h2>异步处理 <span class="en-label">Async / Await</span></h2>
+  </div>
+
+  <div class="concept">
+    <div class="concept-header">
+      <span class="concept-title-zh">调用 API 必须懂</span>
+      <span class="concept-title-en">Essential for API calls</span>
+      <span class="tag must">必须</span>
+    </div>
+    <div class="concept-body">
+      <p class="desc">网络请求需要时间，JS 不会傻等——它先去做别的事，等结果回来再处理。<strong>async/await</strong> 是处理这种"等待"最清晰的写法。</p>
+      <pre><span class="cm">// 调用一个 API 获取数据</span>
+<span class="kw">const</span> <span class="fn">fetchUser</span> <span class="arr">=</span> <span class="kw">async</span> () <span class="arr">=&gt;</span> {
+  <span class="kw">try</span> {
+    <span class="cm">// await = "等这个结果回来再继续"</span>
+    <span class="kw">const</span> response <span class="arr">=</span> <span class="kw">await</span> <span class="fn">fetch</span>(<span class="str">"https://api.example.com/user"</span>)
+    <span class="kw">const</span> data <span class="arr">=</span> <span class="kw">await</span> response.<span class="fn">json</span>()
+    console.<span class="fn">log</span>(data)
+  } <span class="kw">catch</span> (error) {
+    <span class="cm">// 出错了在这里处理</span>
+    console.<span class="fn">log</span>(<span class="str">"出错了:"</span>, error)
+  }
+}
+
+<span class="fn">fetchUser</span>()
+
+<span class="cm">// 调用 Claude API 也是同样的写法</span>
+<span class="kw">const</span> <span class="fn">askClaude</span> <span class="arr">=</span> <span class="kw">async</span> (prompt) <span class="arr">=&gt;</span> {
+  <span class="kw">const</span> res <span class="arr">=</span> <span class="kw">await</span> <span class="fn">fetch</span>(<span class="str">"/api/claude"</span>, {
+    <span class="prop">method</span>: <span class="str">"POST"</span>,
+    <span class="prop">body</span>: JSON.<span class="fn">stringify</span>({ prompt })
+  })
+  <span class="kw">return</span> <span class="kw">await</span> res.<span class="fn">json</span>()
+}</pre>
+      <div class="tip"><strong>规则：</strong> 用了 <code>await</code>，函数前面必须加 <code>async</code>。永远加 <code>try/catch</code> 处理错误。</div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 6 -->
+<div class="section">
+  <div class="section-header">
+    <span class="section-num">06</span>
+    <h2>模块系统 <span class="en-label">Modules</span></h2>
+  </div>
+
+  <div class="concept">
+    <div class="concept-header">
+      <span class="concept-title-zh">import / export</span>
+      <span class="concept-title-en">Splitting code into files</span>
+      <span class="tag must">必须</span>
+    </div>
+    <div class="concept-body">
+      <p class="desc">代码拆成多个文件，用 <strong>export</strong> 导出，用 <strong>import</strong> 引入。React 项目里每个组件都是这样组织的。</p>
+      <pre><span class="cm">// utils.js — 导出函数</span>
+<span class="kw">export const</span> <span class="fn">formatName</span> <span class="arr">=</span> (name) <span class="arr">=&gt;</span> name.<span class="fn">toUpperCase</span>()
+
+<span class="kw">export default</span> <span class="kw">function</span> <span class="fn">greet</span>(name) {
+  <span class="kw">return</span> <span class="str">`Hello, </span><span class="arr">${name}</span><span class="str">!`</span>
+}
+
+<span class="cm">// App.js — 引入使用</span>
+<span class="kw">import</span> greet, { formatName } <span class="kw">from</span> <span class="str">"./utils"</span>
+
+<span class="cm">// 引入第三方库（你已经用过）</span>
+<span class="kw">import</span> { useState } <span class="kw">from</span> <span class="str">"react"</span>
+<span class="kw">import</span> { Html5QrcodeScanner } <span class="kw">from</span> <span class="str">"html5-qrcode"</span></pre>
+      <div class="tip tip-blue"><strong>default vs named：</strong> <code>export default</code> 导入时可以随便起名；<code>export const</code> 导入时要用花括号 <code>{}</code> 且名字要对应。</div>
+    </div>
+  </div>
+</div>
+
+<!-- SUMMARY -->
+<div class="section">
+  <div class="section-header">
+    <span class="section-num">✓</span>
+    <h2>学完这些，你能做什么 <span class="en-label">What you can build now</span></h2>
+  </div>
+
+  <div class="summary-grid">
+    <div class="summary-item">
+      <div class="label">调用 AI API</div>
+      <div class="value">async/await + fetch，接入 Claude / OpenAI</div>
+    </div>
+    <div class="summary-item">
+      <div class="label">处理数据</div>
+      <div class="value">map/filter 处理返回的 JSON 数据</div>
+    </div>
+    <div class="summary-item">
+      <div class="label">看懂 React 代码</div>
+      <div class="value">解构、箭头函数、import 全覆盖了</div>
+    </div>
+    <div class="summary-item">
+      <div class="label">组织项目结构</div>
+      <div class="value">模块系统拆分组件和工具函数</div>
+    </div>
+  </div>
+
+  <div class="tip" style="margin-top:1rem">
+    <strong>下一步：</strong> 带着这些基础，直接做一个小项目——比如用 fetch 调用一个免费 API（天气、翻译、或者 Claude），把结果显示在页面上。遇到不会的再查，这才是真正学会的方式。
+  </div>
+</div>
+
+<footer>
+  JavaScript 最小入门 · 够用就好，剩下用到再学 · For Freya
+</footer>
+
+</div>
+</body>
+</html>
